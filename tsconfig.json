@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"target": "esnext",
+		"module": "commonjs",
+		"lib": ["esnext", "dom"],
+		"strict": true,
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"outDir": "dist",
+		"typeRoots": ["node_modules/@types"]
+	},
+	"include": ["src", "test", "index.d.ts"],
+	"exclude": ["node_modules", "examples"]
+}

@@ -1,0 +1,99 @@
+{
+	"name": "toyger",
+	"version": "0.0.0",
+	"description": "Advanced way to use git-notes",
+	"main": "dist/index.js",
+	"bin": {
+		"toyger": "dist/cli.js"
+	},
+	"typings": "index.d.ts",
+	"files": ["dist/", "index.d.ts"],
+	"scripts": {
+		"prebuild": "shx rm -r dist || true",
+		"build": "rollup -c",
+		"lint": "(tsc --pretty -p . --noemit || true) && tslint -p . --force",
+		"lint:fix": "tslint -p . --fix --force",
+		"lint:commits": "commitlint --to=$(git rev-parse HEAD)",
+		"release": "standard-version --skip.commit --skip.tag",
+		"release:as": "standard-version --skip.commit --skip.tag --release-as",
+		"release:ok": "standard-version --sign --commit-all --skip.bump --skip.changelog",
+		"release:validate": "commitlint --from=$(git describe --tags --abbrev=0) --to=$(git rev-parse HEAD)",
+		"ci:lint": "tsc --pretty -p . --noemit && tslint -p .",
+		"ci:test": "jest --runInBand --silent --ci",
+		"ci:coverage": "jest --collectCoverageFrom='src/**/*.ts' --coverage --runInBand --silent --ci",
+		"ci:release": "conventional-github-releaser -p angular",
+		"ci:lint:commits": "commitlint --from=${CIRCLE_BRANCH} --to=${CIRCLE_SHA1}",
+		"pretest": "npm run build",
+		"test": "jest --notify",
+		"test:coverage": "jest --collectCoverageFrom='src/**/*.ts' --coverage",
+		"prepublishOnly": "npm run build"
+	},
+	"lint-staged": {
+		"*.ts": ["tslint -c tslint.json -p tsconfig.json"]
+	},
+	"standard-version": {
+		"scripts": {
+			"postbump": "prettier package*.json --write",
+			"precommit": "git add CHANGELOG.md package*.json"
+		}
+	},
+	"engines": {
+		"node": ">= 6.14"
+	},
+	"repository": "github:DrSensor/git-notes.git",
+	"keywords": ["git", "notes", "hooks"],
+	"author": "Fahmi Akbar Wildana",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/DrSensor/git-notes/issues"
+	},
+	"directories": {
+		"doc": "docs/",
+		"lib": "packages/",
+		"test": "test/"
+	},
+	"dependencies": {
+		"cosmiconfig": "^5.0",
+		"glob": "^7.1",
+		"isomorphic-git": "^0.35",
+		"shelljs": "^0.8"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.0",
+		"@babel/plugin-proposal-class-properties": "^7.0",
+		"@babel/plugin-proposal-export-namespace-from": "^7.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.0",
+		"@babel/preset-env": "^7.0.0-rc.3",
+		"@babel/preset-typescript": "^7.0",
+		"@commitlint/cli": "^7.1",
+		"@commitlint/config-conventional": "^7.1",
+		"@types/cosmiconfig": "^5.0.3",
+		"@types/glob": "^5.0.35",
+		"@types/jest": "^23.3.2",
+		"@types/node": "^10.9.4",
+		"@types/shelljs": "^0.8.0",
+		"babel-core": "^7.0.0-bridge",
+		"babel-jest": "^23.6",
+		"conventional-github-releaser": "^3.1",
+		"husky": "^1.0.0-rc.13",
+		"jest": "^23.6",
+		"jest-extended": "^0.8.1",
+		"lint-staged": "^7.2",
+		"prettier": "^1.14",
+		"pretty-quick": "^1.6",
+		"rollup": "^0.66",
+		"rollup-plugin-auto-external": "^2.0",
+		"rollup-plugin-babel": "^4.0",
+		"rollup-plugin-commonjs": "^9.1",
+		"rollup-plugin-node-resolve": "^3.4",
+		"rollup-plugin-prettier": "^0.4",
+		"rollup-plugin-typescript2": "^0.17",
+		"shx": "^0.3",
+		"standard-version": "^4.4",
+		"ts-jest": "^23.1",
+		"ts-node": "^7.0",
+		"tslint": "^5.11",
+		"tslint-config-prettier": "^1.15",
+		"typescript": "^3.0"
+	}
+}
