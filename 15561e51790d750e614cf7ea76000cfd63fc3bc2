@@ -1,0 +1,69 @@
+rollup-plugin-commonjs doesn't support Node v6
+
+At first try on CI job `node6-latest`, I notice that Node@6 doesn't support object destructuring
+because when I run build/bundle the project, it produce:
+```console
+> rollup -c
+
+[!] SyntaxError: Unexpected token ...
+/home/wildan/Projects/OSS/git-notes/rollup.config.js:17
+let {overrides, ...options} = prc;
+                ^^^
+
+SyntaxError: Unexpected token ...
+    at createScript (vm.js:56:10)
+    at Object.runInThisContext (vm.js:97:10)
+    at Module._compile (module.js:549:28)
+    at Object.require.extensions..js (/home/wildan/Projects/OSS/git-notes/node_modules/rollup/bin/rollup:1241:24)
+    at Module.load (module.js:494:32)
+    at tryModuleLoad (module.js:453:12)
+    at Function.Module._load (module.js:445:3)
+    at Module.require (module.js:504:17)
+    at require (internal/module.js:20:19)
+    at /home/wildan/Projects/OSS/git-notes/node_modules/rollup/bin/rollup:1248:32
+```
+
+which mean that this code doesn't work!
+```js
+let {overrides, ...options} = prc
+ const prettierrc = {
+	options: options,
+	files: files => overrides.find(p => p.files === files).options
+ }
+```
+
+Luckily someone from SpeakJS discord server give me a solution
+```js
+let overrides = prc.overrides
+let options = {}
+for (const key of Object.keys(prc)) {
+	if (key === "overrides") continue
+	options[key] = prc[key]
+}
+const prettierrc = {
+	options: options,
+	files: files => overrides.find(p => p.files === files).options
+}
+```
+
+However that's produce another error
+```console
+> rollup -c
+
+src/index.ts, src/main.ts → dist...
+[!] TypeError: Object.values is not a function
+TypeError: Object.values is not a function
+    at Object.options (/home/wildan/Projects/OSS/git-notes/node_modules/rollup-plugin-commonjs/src/index.js:166:13)
+    at applyOptionHook (/home/wildan/Projects/OSS/git-notes/node_modules/rollup/dist/rollup.js:22387:23)
+    at Array.reduce (native)
+    at getInputOptions$1 (/home/wildan/Projects/OSS/git-notes/node_modules/rollup/dist/rollup.js:22405:41)
+    at Object.rollup (/home/wildan/Projects/OSS/git-notes/node_modules/rollup/dist/rollup.js:22466:30)
+    at build (/home/wildan/Projects/OSS/git-notes/node_modules/rollup/bin/rollup:1177:19)
+    at /home/wildan/Projects/OSS/git-notes/node_modules/rollup/bin/rollup:1954:24
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+    at Module.runMain (module.js:613:11)
+    at run (bootstrap_node.js:394:7)
+```
+
+This is where I know that rollup-plugin-commonjs doesn't support Node@6
+Finally I remove job `node6-latest` from the .circleci/config.yml 😂
