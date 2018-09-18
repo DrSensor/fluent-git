@@ -13,7 +13,7 @@
 		"no-consecutive-blank-lines": true,
 		"no-console": false,
 		"curly": [true, "as-needed"],
-		"semicolon": [true, "always"],
+		"semicolon": [true, "always", "strict-bound-class-methods"],
 		"member-access": [true, "no-public"]
 	}
 }
