@@ -12,7 +12,8 @@
 		"object-literal-sort-keys": false,
 		"no-consecutive-blank-lines": true,
 		"no-console": false,
-		"curly": [true, "ignore-same-line"],
-		"semicolon": [true, "always"]
+		"curly": [true, "as-needed"],
+		"semicolon": [true, "always"],
+		"member-access": [true, "no-public"]
 	}
 }

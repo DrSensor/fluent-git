@@ -1,6 +1,8 @@
 .utopian/
 .NOTE.md
 !packages/*
+types/
+toyger
 
 # Rust
 *.lock

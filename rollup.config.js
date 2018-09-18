@@ -1,5 +1,6 @@
 import {dirname} from "path"
-import {mv} from "shelljs"
+import {rm, mv, mkdir, chmod, ln} from "shelljs"
+import {watch} from "chokidar"
 import pkg from "./package.json"
 import prc from "./.prettierrc.json"
 
@@ -9,6 +10,9 @@ import autoExternal from "rollup-plugin-auto-external"
 import babel from "rollup-plugin-babel"
 import prettier from "rollup-plugin-prettier"
 import typescript from "rollup-plugin-typescript2"
+
+import executable from "./script/rollup-plugin/executable"
+import moveDts from "./script/rollup-plugin/move-typedef"
 
 // #region helper
 let {overrides, ...options} = prc
@@ -36,11 +40,13 @@ export default [
 				exclude: ["test/**"],
 				tsconfigOverride: {compilerOptions: {module: "esnext"}}
 			}),
+			moveDts(),
 			commonjs(),
 			resolve(),
 			babel(),
 			autoExternal(),
-			prettier(prettierrc.files("*.js"))
+			prettier(prettierrc.files("*.js")),
+			executable()
 		]
 	}
 ]

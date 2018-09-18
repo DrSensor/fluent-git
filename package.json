@@ -6,11 +6,11 @@
 	"bin": {
 		"toyger": "dist/cli.js"
 	},
-	"typings": "index.d.ts",
-	"files": ["dist/", "index.d.ts"],
+	"typings": "types/index.d.ts",
+	"files": ["dist/", "types/"],
 	"scripts": {
-		"prebuild": "shx rm -r dist || true",
 		"build": "rollup -c",
+		"start": "rollup -c --watch",
 		"lint": "(tsc --pretty -p . --noemit || true) && tslint -p . --force",
 		"lint:fix": "tslint -p . --fix --force",
 		"lint:commits": "commitlint --to=$(git rev-parse HEAD)",
@@ -23,8 +23,9 @@
 		"ci:coverage": "jest --collectCoverageFrom='src/**/*.ts' --coverage --runInBand --silent --ci",
 		"ci:release": "conventional-github-releaser -p angular",
 		"ci:lint:commits": "commitlint --from=${CIRCLE_BRANCH} --to=${CIRCLE_SHA1}",
-		"pretest": "npm run build",
-		"test": "jest --notify",
+		"test": "concurrently -k -i --default-input-target jest -n rollup,jest \"rollup -c --watch\" \"jest --notify --watch\"",
+		"pretest:once": "npm run build",
+		"test:once": "jest --notify",
 		"test:coverage": "jest --collectCoverageFrom='src/**/*.ts' --coverage",
 		"prepublishOnly": "npm run build"
 	},
@@ -54,9 +55,11 @@
 	},
 	"dependencies": {
 		"cosmiconfig": "^5.0",
+		"execa-pro": "^1.0.8",
 		"glob": "^7.1",
-		"isomorphic-git": "^0.35",
-		"shelljs": "^0.8"
+		"shelljs": "^0.8",
+		"simple-git": "^1.98.0",
+		"yargs": "^12.0.2"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.0",
@@ -72,8 +75,11 @@
 		"@types/jest": "^23.3.2",
 		"@types/node": "^10.9.4",
 		"@types/shelljs": "^0.8.0",
+		"@types/yargs": "^12.0.0",
 		"babel-core": "^7.0.0-bridge",
 		"babel-jest": "^23.6",
+		"chokidar": "^2.0.4",
+		"concurrently": "^4.0.1",
 		"conventional-github-releaser": "^3.1",
 		"husky": "^1.0.0-rc.13",
 		"jest": "^23.6",
