@@ -32,19 +32,29 @@ npm audit fix
 
 This project has only unit-tests. The unit-tests will use [jest][] which basically will run in `node.js` environment. Run this command to start the unit-tests (choose which one):
 
-```console
-npm run test
-npm run test -- --watch
-npm run test:coverage
+```sh
+npm test                  # watch mode
+npm run test:once         # run only once (just like `jest --notify`)
+npm run test:coverage     # run once and output the coverage
 ```
 
 ### Build
 
 To compile/bundle this project, you can choose between this 2 command
 
+To build once
+
 ```console
 npm run build
 ```
+
+To run live build
+
+```console
+npm start
+```
+
+That command is suitable if you want to live experiment the cli (src/main.ts)
 
 ## Project Structure
 
