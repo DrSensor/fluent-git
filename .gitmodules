@@ -1,3 +1,7 @@
 [submodule "husky"]
 	path = packages/husky
 	url = ../../typicode/husky.git
+
+[submodule "example"]
+	path = example
+	url = ../example-git-notes

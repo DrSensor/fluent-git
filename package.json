@@ -51,10 +51,12 @@
 	"directories": {
 		"doc": "docs/",
 		"lib": "packages/",
-		"test": "test/"
+		"test": "test/",
+		"example": "example/"
 	},
 	"dependencies": {
 		"cosmiconfig": "^5.0",
+		"execa": "^1.0.0",
 		"execa-pro": "^1.0.8",
 		"glob": "^7.1",
 		"shelljs": "^0.8",
@@ -71,6 +73,7 @@
 		"@commitlint/cli": "^7.1",
 		"@commitlint/config-conventional": "^7.1",
 		"@types/cosmiconfig": "^5.0.3",
+		"@types/execa": "^0.9.0",
 		"@types/glob": "^5.0.35",
 		"@types/jest": "^23.3.2",
 		"@types/node": "^10.9.4",

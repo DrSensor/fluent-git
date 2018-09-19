@@ -5,6 +5,7 @@ module.exports = {
 			useBabelrc: true
 		}
 	},
+	globalSetup: "<rootDir>/script/jest/globalSetup.js",
 	transform: {
 		"^.+\\.tsx?$": "ts-jest"
 	},

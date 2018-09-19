@@ -1,27 +1,29 @@
+import { sync as execFileSync } from 'execa';
+
+type Notes = string | GitNotes;
 export interface GitNotes {
-  [ops: string]: (notes: string) => void;
-  show(): string;
+  notes: string;
+  ref: string;
 }
 
-export default function(sha: string): GitNotes {
+export default function(sha: string) {
   return {
-    add(notes: string): void {
+    add(notes: Notes): void {
       /* not yet implemented */
     },
-    overwrite(notes: string): void {
+    overwrite(notes: Notes): void {
       /* not yet implemented */
     },
-    copy(notes: string): void {
+    copy(notes: Notes): void {
       /* not yet implemented */
     },
-    append(notes: string): void {
+    append(notes: Notes): void {
       /* not yet implemented */
     },
-    remove(notes: string): void {
+    remove(notes: Notes): void {
       /* not yet implemented */
     },
-    show(): string {
-      return 'not yet implemented';
-    }
+    show: (ref?: string): string =>
+      execFileSync('git', ['notes', ...(ref ? [ref] : []), 'show', sha]).stdout
   };
 }

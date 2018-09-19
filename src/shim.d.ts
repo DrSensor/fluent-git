@@ -1,1 +1,13 @@
-const NOT_YET_IMPLEMENTED = 'not yet implemented';
+interface Operation {
+  name: string;
+  data: any;
+}
+
+interface BasePanic {
+  operation: Operation;
+  data: any;
+}
+
+interface Panic extends BasePanic {
+  suggestion: string | ((panic: BasePanic) => string);
+}

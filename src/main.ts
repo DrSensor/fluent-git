@@ -1,3 +1,17 @@
-import lib from './index';
+import gitNotes from './index';
+import { command } from 'yargs';
+import { isHash } from './utils';
 
-console.log(lib);
+const notes = gitNotes();
+
+const yargs = command({
+  command: 'print <commit>',
+  describe: 'print notes',
+  handler: argv => {
+    if (isHash(argv.commit)) console.log(notes.at(argv.commit).show());
+    else console.log(notes.atCommit(argv.commit).show());
+  }
+}).showHelpOnFail(true);
+
+if (process.argv.length <= 2) yargs.showHelp().parse();
+else yargs.parse();
