@@ -1,5 +1,5 @@
 import { sync as execFileSync } from 'execa';
-import { GitLog } from '../default-options';
+import { GitLog } from './default-options';
 
 /** Get commit hash from commit-message
  * Be careful it will return either individual or array of string

@@ -1,8 +1,8 @@
-import gitNotes from './index';
+import gitNotes, { IfManual } from './';
 import { command } from 'yargs';
 import { isHash } from './utils';
 
-const notes = gitNotes();
+const notes = gitNotes() as IfManual;
 
 const yargs = command({
   command: 'print <commit>',

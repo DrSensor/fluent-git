@@ -1,6 +1,6 @@
 import { sync as execFileSync } from 'execa';
 import { isHash, parse } from '../../utils';
-import { GitListTree } from '../default-options';
+import { GitListTree } from './default-options';
 
 import { fromCommit } from './commit';
 

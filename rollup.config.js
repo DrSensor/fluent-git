@@ -1,6 +1,4 @@
 import {dirname} from "path"
-import {rm, mv, mkdir, chmod, ln} from "shelljs"
-import {watch} from "chokidar"
 import pkg from "./package.json"
 import prc from "./.prettierrc.json"
 
