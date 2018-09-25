@@ -24,7 +24,6 @@
 		"ci:release": "conventional-github-releaser -p angular",
 		"ci:lint:commits": "commitlint --from=${CIRCLE_BRANCH} --to=${CIRCLE_SHA1}",
 		"test": "concurrently -k -i --default-input-target jest -n rollup,jest \"rollup -c --watch\" \"jest --notify --watch\"",
-		"pretest:once": "npm run build",
 		"test:once": "jest --notify",
 		"test:coverage": "jest --collectCoverageFrom='src/**/*.ts' --coverage",
 		"prepublishOnly": "npm run build"

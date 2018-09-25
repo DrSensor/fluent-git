@@ -1,4 +1,4 @@
-import gitnotes from '../dist';
+import gitnotes from '../src';
 import 'jest-extended';
 
 function test(GitObject: string, Text: string) {
@@ -18,7 +18,7 @@ function test(GitObject: string, Text: string) {
   });
 }
 
-describe('Copy Notes', () => {
+describe.skip('Copy Notes', () => {
   const loremIpsum = `headline of the notes
   # 😋 Lorem Ipsum
   * Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
