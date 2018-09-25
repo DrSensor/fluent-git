@@ -14,6 +14,7 @@
 		"no-console": false,
 		"curly": [true, "as-needed"],
 		"semicolon": [true, "always", "strict-bound-class-methods"],
-		"member-access": [true, "no-public"]
+		"member-access": [true, "no-public"],
+		"no-namespace": [true, "allow-declarations"]
 	}
 }

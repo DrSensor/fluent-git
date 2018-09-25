@@ -2,11 +2,13 @@ import gitNotes from './notes';
 import * as SHA from './get-sha';
 import { isHash, becomePanic } from '../utils';
 
-type Operation = 'add' | 'overwrite' | 'copy' | 'append' | 'remove';
-
 /** Class Handler to make 🆒 semantic API style 😎 */
 export default class {
-  constructor(private ops?: Operation, private notes?: string) {
+  constructor(
+    private opts: GitNotes.Options,
+    private ops?: GitNotes.StringArgsOps,
+    private notes?: string
+  ) {
     if (ops && !notes) throw new Error('Notes is missing for operation ' + ops);
   }
 
@@ -15,8 +17,8 @@ export default class {
    * @returns chainable function **if possible**
    */
   at(sha: string) {
-    if (this.ops) return gitNotes(sha)[this.ops](this.notes!);
-    else return gitNotes(sha);
+    if (this.ops) return gitNotes(sha, this.opts)[this.ops](this.notes!);
+    else return gitNotes(sha, this.opts);
   }
 
   /** Insert/Read notes at specific file
@@ -46,6 +48,8 @@ export default class {
   }
 
   /** Insert/Read notes at specific submodule
+   * @todo Need test 🙂
+   *
    * @param submodule must be relativepath
    * @param commit can be commit-id (SHA-1) or commit-message
    * @returns chainable function **if possible**
@@ -57,11 +61,11 @@ export default class {
   }
 
   // same as `fromCommit` from `get-sha.ts` but with error handling
-  private getCommitSHA(message: string) {
+  private getCommitSHA(message: string): string | never {
     const commitId = SHA.fromCommit(message);
 
     if (Array.isArray(commitId))
-      becomePanic({
+      return becomePanic({
         operation: {
           name: 'commit-message',
           data: message

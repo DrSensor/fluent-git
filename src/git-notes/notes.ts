@@ -1,29 +1,64 @@
-import { sync as execFileSync } from 'execa';
+import { sync as execFileSync, CommonOptions as ExecaOptions } from 'execa';
+import { isHash } from '../utils';
 
-type Notes = string | GitNotes;
-export interface GitNotes {
-  notes: string;
-  ref: string;
-}
+/** Helper function to execute {@link https://git-scm.com/docs/git-notes#_subcommands git-notes subcommands}
+ * @param sha SHA of commit, blob, or tree
+ * @param options accept either value of `--ref` or `--ref` + {@link https://github.com/sindresorhus/execa#options execa Options}
+ * @return list of function correspond to git-notes subcommands which can be called
+ */
+export default function(
+  sha: string,
+  options: string | GitNotes.Options
+): GitNotes.Operation {
+  const { ref = null, ...execaOpts } =
+    typeof options !== 'string' ? options : {};
 
-export default function(sha: string) {
   return {
-    add(notes: Notes): void {
-      /* not yet implemented */
-    },
-    overwrite(notes: Notes): void {
-      /* not yet implemented */
-    },
-    copy(notes: Notes): void {
-      /* not yet implemented */
-    },
-    append(notes: Notes): void {
-      /* not yet implemented */
-    },
-    remove(notes: Notes): void {
-      /* not yet implemented */
-    },
-    show: (ref?: string): string =>
-      execFileSync('git', ['notes', ...(ref ? [ref] : []), 'show', sha]).stdout
+    add: (notes: string) =>
+      execFileSync(
+        'git',
+        ['notes', ...(ref ? ['--ref', ref] : []), 'add', sha, '-m', notes],
+        execaOpts
+      ),
+
+    overwrite: (text: string) =>
+      execFileSync(
+        'git',
+        [
+          'notes',
+          ...(ref ? ['--ref', ref] : []),
+          ...(isHash(text) ? ['add', sha, '-m', text] : ['copy', text, sha]),
+          '-f'
+        ],
+        execaOpts
+      ),
+
+    copyFrom: (otherSHA: string) =>
+      execFileSync(
+        'git',
+        ['notes', ...(ref ? ['--ref', ref] : []), 'copy', otherSHA, sha],
+        execaOpts
+      ),
+
+    append: (notes: string) =>
+      execFileSync(
+        'git',
+        ['notes', ...(ref ? ['--ref', ref] : []), 'append', sha, '-m', notes],
+        execaOpts
+      ),
+
+    remove: () =>
+      execFileSync(
+        'git',
+        ['notes', ...(ref ? ['--ref', ref] : []), 'remove', sha],
+        execaOpts
+      ),
+
+    show: () =>
+      execFileSync(
+        'git',
+        ['notes', ...(ref ? ['--ref', ref] : []), 'show', sha],
+        execaOpts
+      ).stdout
   };
 }
