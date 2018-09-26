@@ -1,6 +1,75 @@
 import gitnotes from '../src';
 import 'jest-extended';
 
+describe('Show Notes', () => {
+  describe('at specific Git Object', () => {
+    describe('when use full SHA', () =>
+      testSHA('af233391c665c79184a0d14cfe384b13a852e431'));
+
+    describe('when use abbreviated SHA', () => testSHA('af23339'));
+
+    test('should throw Error if no Git Object found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.at('fffffff').show()).toThrowError();
+    });
+
+    test('should throw Error if no note found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.at('0745e98').show()).toThrowError();
+    });
+  });
+
+  describe('at specific COMMIT using commit message', () => {
+    describe('while commit does exist', () => testCommit('Initial commit'));
+
+    test('should throw Error if no commit-message found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.atCommit('( ͡° ͜ʖ ͡°)').show()).toThrowError();
+    });
+
+    test('should throw Error if no note found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.atCommit('another folder').show()).toThrowError();
+    });
+  });
+
+  describe('at FILE on specific commit', () => {
+    describe('while note is exist', () => {
+      describe('if given commit-id', () => testFile('LICENSE', 'af23339'));
+      describe('if given commit-message', () =>
+        testFile('LICENSE', 'Initial commit'));
+    });
+
+    test('should throw Error if no file found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.atFile('( ͡° ͜ʖ ͡°)', 'af23339').show()).toThrowError();
+    });
+
+    test('should throw Error if no note found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.atFile('README.md', 'af23339').show()).toThrowError();
+    });
+  });
+
+  describe('at FOLDER on specific commit', () => {
+    describe('while note is exist', () => {
+      describe('if given commit-id', () => testFolder('.github', 'b0279ab'));
+      describe('if given commit-message', () =>
+        testFolder('.github', 'another folder'));
+    });
+
+    test('should throw Error if no folder found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.atFolder('( ͡° ͜ʖ ͡°)', 'b0279ab').show()).toThrowError();
+    });
+
+    test('should throw Error if no note found', () => {
+      const notes = gitnotes() as IfEmpty;
+      expect(() => notes.atFolder('src', 'b0279ab').show()).toThrowError();
+    });
+  });
+});
+
 //#region test instantiating
 function testSHA(GitObject: string) {
   it('should return string if given a Hash string on instantiating', () => {
@@ -74,72 +143,3 @@ function testFolder(Folder: string, Commit: string) {
   });
 }
 //#endregion
-
-describe('Show Notes', () => {
-  describe('at specific Git Object', () => {
-    describe('when use full SHA', () =>
-      testSHA('af233391c665c79184a0d14cfe384b13a852e431'));
-
-    describe('when use abbreviated SHA', () => testSHA('af23339'));
-
-    test('should throw Error if no Git Object found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.at('fffffff').show()).toThrowError();
-    });
-
-    test('should throw Error if no note found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.at('0745e98').show()).toThrowError();
-    });
-  });
-
-  describe('at specific COMMIT using commit message', () => {
-    describe('while commit does exist', () => testCommit('Initial commit'));
-
-    test('should throw Error if no commit-message found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.atCommit('( ͡° ͜ʖ ͡°)').show()).toThrowError();
-    });
-
-    test('should throw Error if no note found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.atCommit('another folder').show()).toThrowError();
-    });
-  });
-
-  describe('at FILE on specific commit', () => {
-    describe('while note is exist', () => {
-      describe('if given commit-id', () => testFile('LICENSE', 'af23339'));
-      describe('if given commit-message', () =>
-        testFile('LICENSE', 'Initial commit'));
-    });
-
-    test('should throw Error if no file found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.atFile('( ͡° ͜ʖ ͡°)', 'af23339').show()).toThrowError();
-    });
-
-    test('should throw Error if no note found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.atFile('README.md', 'af23339').show()).toThrowError();
-    });
-  });
-
-  describe('at FOLDER on specific commit', () => {
-    describe('while note is exist', () => {
-      describe('if given commit-id', () => testFolder('.github', 'b0279ab'));
-      describe('if given commit-message', () =>
-        testFolder('.github', 'another folder'));
-    });
-
-    test('should throw Error if no folder found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.atFolder('( ͡° ͜ʖ ͡°)', 'b0279ab').show()).toThrowError();
-    });
-
-    test('should throw Error if no note found', () => {
-      const notes = gitnotes() as IfEmpty;
-      expect(() => notes.atFolder('src', 'b0279ab').show()).toThrowError();
-    });
-  });
-});
