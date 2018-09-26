@@ -1,15 +1,15 @@
-import gitNotes, { IfManual } from './';
+import { notes } from './';
 import { command } from 'yargs';
 import { isHash } from './utils';
 
-const notes = gitNotes() as IfManual;
+const gnotes = notes() as NotesUse.Manually;
 
 const yargs = command({
   command: 'print <commit>',
   describe: 'print notes',
   handler: argv => {
-    if (isHash(argv.commit)) console.log(notes.at(argv.commit).show());
-    else console.log(notes.atCommit(argv.commit).show());
+    if (isHash(argv.commit)) console.log(gnotes.at(argv.commit).show());
+    else console.log(gnotes.atCommit(argv.commit).show());
   }
 }).showHelpOnFail(true);
 

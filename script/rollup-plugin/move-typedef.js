@@ -1,8 +1,8 @@
 // rework for rollup-plugin-typescript2 bug🐛 (declarationDir not being respected)
 // https://github.com/ezolenko/rollup-plugin-typescript2/issues/101
 import { watch } from 'chokidar';
-import { ls, mkdir, rm, mv } from 'shelljs';
-import { parse, dirname } from 'path';
+import { ls, mkdir, rm, mv, cp } from 'shelljs';
+import { basename, dirname } from 'path';
 import { argv } from 'yargs';
 
 /** Move all types definition files to `types` folder
@@ -15,13 +15,23 @@ export default function moveDts() {
   rm('types/*');
 
   watcher.on('add', path => {
-    if (/\.d\.ts$/.test(path) && parse(parse(path).name).name !== 'shim') {
+    const filename = basename(path);
+    if (/\.d\.ts$/.test(filename)) {
       const typesPath = 'types' + dirname(path).replace('src', '');
       mkdir('-p', typesPath);
+
+      //#region ⚠️ enable this if using (shim|global).d.ts inside src folder
+      // if (/^_*(shim|global).*/.test(filename)) cp(path, typesPath);
+      // else mv(path, typesPath);
+      //#endregion 👇 also don't forget to remove it
       mv(path, typesPath);
     }
-    if (ls('types').length === ls('src/**!(shim*.d).ts').length && !argv.watch)
-      setTimeout(() => watcher.close(), 500);
+
+    if (
+      ls('-R', 'types').length === ls('-R', 'src/**/*?(.d).ts').length &&
+      !argv.watch
+    )
+      setTimeout(() => watcher.close(), 500); // break;
   });
   return { name: 'moveDts' };
 }

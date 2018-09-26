@@ -9,7 +9,7 @@ export const isHash = (str: string) => /^[a-f0-9]{5,50}$/gm.test(str);
  * @param {Panic} panic panic object
  * @throws beutiful error message
  */
-export const becomePanic = (panic: Panic) => {
+export const becomePanic = (panic: GitNotes.Panic) => {
   throw new Error(
     `${panic.operation.name}: ${panic.operation.data}` +
       `\nHas multiple Id: ${panic.data}` +
