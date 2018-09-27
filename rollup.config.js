@@ -25,6 +25,7 @@ export default [
 	{
 		input: {
 			index: "src/index.ts",
+			"get-sha": "src/git-notes/get-sha/index.ts",
 			cli: "src/main.ts"
 		},
 		output: {

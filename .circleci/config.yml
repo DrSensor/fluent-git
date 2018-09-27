@@ -5,10 +5,10 @@ install_submodule: &install_submodule
   run:
     name: Prepare example repo
     command: |
+      git config --global user.email $GIT_EMAIL
+      git config --global user.name $GIT_USERNAME
       git submodule sync --recursive
       git submodule update --init --recursive
-      cd example
-      git fetch origin refs/notes/*:refs/notes/*
 
 unit_tests: &unit_tests
   steps:
