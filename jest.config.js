@@ -6,6 +6,7 @@ module.exports = {
 		}
 	},
 	globalSetup: "<rootDir>/script/jest/globalSetup.js",
+	globalTeardown: "<rootDir>/script/jest/globalTeardown.js",
 	transform: {
 		"^.+\\.tsx?$": "ts-jest"
 	},

@@ -3,7 +3,7 @@ import * as SHA from '../src/git-notes/get-sha';
 import { execSync } from 'child_process';
 import 'jest-extended';
 
-const ref = 'test-add';
+const ref = 'test/add';
 const somenotes = `headline of the notes
 # 😋 Lorem Ipsum
 * Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
