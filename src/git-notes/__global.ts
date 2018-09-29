@@ -14,7 +14,6 @@ declare global {
       overwrite: Handler;
       copy: Handler;
       append: Handler;
-      remove: Handler;
     }
 
     interface Hash {
@@ -22,7 +21,7 @@ declare global {
       overwrite(notes: string): void;
       copy(notes: string): void;
       append(notes: string): void;
-      remove(notes: string): void;
+      remove(): void;
       show(): string;
     }
 

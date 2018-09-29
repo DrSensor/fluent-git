@@ -27,7 +27,7 @@ export default function(
         [
           'notes',
           ...(ref ? ['--ref', ref] : []),
-          ...(isHash(text) ? ['add', sha, '-m', text] : ['copy', text, sha]),
+          ...(isHash(text) ? ['copy', text, sha] : ['add', sha, '-m', text]),
           '-f'
         ],
         execaOpts
