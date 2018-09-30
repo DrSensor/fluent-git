@@ -16,7 +16,7 @@ declare global {
       suggestion: string | ((panic: BasePanic) => string);
     }
 
-    type StringArgsOps = 'add' | 'append' | 'copyFrom' | 'overwrite';
+    type StringArgsOps = 'add' | 'append' | 'overwrite';
     type NoArgsOps = 'remove' | 'show';
 
     type MutateOperation = {
@@ -26,6 +26,7 @@ declare global {
     type MutateLessOperation = { [key in GitNotes.NoArgsOps]: () => any };
 
     interface Operation extends MutateOperation, MutateLessOperation {
+      copyFrom(otherSHA: string): void;
       remove(): void;
       show(): string;
     }

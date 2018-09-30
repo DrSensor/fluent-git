@@ -20,7 +20,7 @@ export default function(
       // if isNotes
       add: new NotesHandler(options, 'add', text),
       overwrite: new NotesHandler(options, 'overwrite', text),
-      copy: new NotesHandler(options, 'copyFrom', text),
+      copy: new NotesHandler(options, 'add', text), // this is intentional for semantic sakes 😂
       append: new NotesHandler(options, 'append', text)
     };
 }
