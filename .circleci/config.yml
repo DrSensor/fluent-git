@@ -3,10 +3,12 @@ version: 2
 
 install_submodule: &install_submodule
   run:
-    name: Install Cargo and Rust compiler
+    name: Prepare example repo
     command: |
-      git submodule sync
-      git submodule update --init
+      git config --global user.email $GIT_EMAIL
+      git config --global user.name $GIT_USERNAME
+      git submodule sync --recursive
+      git submodule update --init --recursive
 
 unit_tests: &unit_tests
   steps:
@@ -81,7 +83,10 @@ jobs:
           command: npm run ci:coverage
       - run:
           name: Submit coverage data to codecov.
-          command: bash <(curl -s https://codecov.io/bash)
+          command: |
+            if [[ -z $CIRCLE_PULL_REQUEST ]]; then
+              bash <(curl -s https://codecov.io/bash)
+            fi
           when: on_success
   # node6-latest:
   #   docker:

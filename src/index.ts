@@ -1,1 +1,3 @@
-export { default } from './git-notes';
+export { default as notes } from './git-notes';
+
+import './__global';

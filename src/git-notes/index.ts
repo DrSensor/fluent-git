@@ -1,21 +1,28 @@
-import { exec, spawn } from 'child_process';
 import gitNotes from './notes';
 import NotesHandler from './handler';
 import { isHash } from '../utils';
 
-/**
- * @see https://gist.github.com/DrSensor/d7d005265009b38f2130adc27eae59be
+/** Instantiate fluent API for git-notes 😎
+ * @param text can be SHA or string notes
+ * @param options can be --ref string or key-value (js object) of options
+ * @return chainable function/object depend on `text`
  */
-export default function(text?: string) {
-  if (!text) return new NotesHandler();
-  else if (isHash(text)) return gitNotes(text);
+export default function(
+  text?: string,
+  options: string | GitNotes.Options = {}
+): any {
+  options = typeof options === 'string' ? { ref: options } : options;
+
+  if (!text) return new NotesHandler(options);
+  else if (isHash(text)) return gitNotes(text, options);
   else
     return {
       // if isNotes
-      add: new NotesHandler('add', text),
-      overwrite: new NotesHandler('overwrite', text),
-      copy: new NotesHandler('copy', text),
-      append: new NotesHandler('append', text),
-      remove: new NotesHandler('remove', text)
+      add: new NotesHandler(options, 'add', text),
+      overwrite: new NotesHandler(options, 'overwriteWith', text),
+      copy: new NotesHandler(options, 'add', text), // this is intentional for semantic sakes 😂
+      append: new NotesHandler(options, 'append', text)
     };
 }
+
+import './__global';
