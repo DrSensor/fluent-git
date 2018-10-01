@@ -18,7 +18,7 @@ declare global {
 
     interface Hash {
       add(notes: string): void;
-      overwrite(notes: string): void;
+      overwriteWith(notes: string): void;
       copyFrom(notes: string): void;
       append(notes: string): void;
       remove(): void;

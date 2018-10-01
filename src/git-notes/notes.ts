@@ -21,7 +21,7 @@ export default function(
         execaOpts
       ),
 
-    overwrite: (text: string) =>
+    overwriteWith: (text: string) =>
       execFileSync(
         'git',
         [

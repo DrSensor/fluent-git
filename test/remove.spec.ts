@@ -170,6 +170,6 @@ function resetNotes(sha: string) {
   try {
     beforeAll(() => (somenotes = notes.show()));
   } finally {
-    afterEach(() => notes.overwrite(somenotes));
+    afterEach(() => notes.overwriteWith(somenotes));
   }
 }

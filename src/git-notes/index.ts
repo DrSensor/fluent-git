@@ -19,7 +19,7 @@ export default function(
     return {
       // if isNotes
       add: new NotesHandler(options, 'add', text),
-      overwrite: new NotesHandler(options, 'overwrite', text),
+      overwrite: new NotesHandler(options, 'overwriteWith', text),
       copy: new NotesHandler(options, 'add', text), // this is intentional for semantic sakes 😂
       append: new NotesHandler(options, 'append', text)
     };

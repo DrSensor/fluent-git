@@ -16,7 +16,7 @@ declare global {
       suggestion: string | ((panic: BasePanic) => string);
     }
 
-    type StringArgsOps = 'add' | 'append' | 'overwrite';
+    type StringArgsOps = 'add' | 'append' | 'overwriteWith';
     type NoArgsOps = 'remove' | 'show';
 
     type MutateOperation = {
