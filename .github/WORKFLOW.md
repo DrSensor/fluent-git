@@ -1,6 +1,6 @@
-# Workflow of toyger
+# Workflow of fluent-git
 
-This is a documentation of workflow that toyger use:
+This is a documentation of workflow that fluent-git use:
 
 - [Release Procedure](#release)
 
@@ -11,7 +11,7 @@ This project use tool called [`standard-version`][] to manage the release proces
 ```console
 $ npm run release
 
-> toyger@0.0.0 release /home/wildan/Projects/OSS/toyger
+> fluent-git@0.0.0 release /home/wildan/Projects/OSS/fluent-git
 > standard-version --skip.commit --skip.tag
 
 ✔ bumping version in package.json from 0.0.0 to 0.0.1
@@ -27,7 +27,7 @@ Review [CHANGELOG.md](./CHANGELOG.md) file and if it's ok then run this command 
 ```console
 $ npm run release:ok
 
-> toyger@0.0.1 release:ok /home/wildan/Projects/OSS/toyger
+> fluent-git@0.0.1 release:ok /home/wildan/Projects/OSS/fluent-git
 > standard-version --sign --commit-all --skip.bump --skip.changelog
 
 ✔ Running lifecycle script "precommit"
@@ -52,7 +52,7 @@ To specify the release type manually (like npm version <`major`|`minor`|`patch`>
 ```console
 $ npm run release:as -- minor
 
-> toyger@0.0.0 release:as /home/wildan/Projects/OSS/toyger
+> fluent-git@0.0.0 release:as /home/wildan/Projects/OSS/fluent-git
 > standard-version --skip.commit --skip.tag --release-as "minor"
 
 ✔ bumping version in package.json from 0.0.0 to 0.1.0

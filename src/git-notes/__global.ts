@@ -29,7 +29,7 @@ declare global {
       at(sha: string): Hash;
       atCommit(message: string): Hash;
       atFile(file: string, commit: string): Hash;
-      atFolder(file: string, commit: string): Hash;
+      atFolder(folder: string, commit: string): Hash;
     }
   }
 }

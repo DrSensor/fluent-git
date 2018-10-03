@@ -20,14 +20,12 @@ We want to fix all the issues as soon as possible, but before fixing a bug we ne
 
 - version of nodejs used
 - version of git you use
-- version of the toyger you are using
+- version of the fluent-git you are using
 - the use-case that fails (if possible and not become a burden for you 😉)
 
 A minimal reproduce scenario allows us to quickly confirm a bug (or point out config problems) as well as confirm that we are fixing the right problem.
 
 We will **not** be insisting on a minimal reproduce scenario. However, we will **ask** you if you can provide us a minimal reproduce scenario in order to save maintainers time and ultimately be able to fix more bugs. We understand that sometimes it might be hard to extract essentials bits of code from a larger code-base but we really need to isolate the problem before we can fix it.
-
-Unfortunately, we are not able to investigate / fix bugs without a minimal reproduction, so if we don't hear back from you we are going to close an issue that doesn't have enough info to be reproduced.
 
 ### <a name="feature"></a> Feature Requests?
 
