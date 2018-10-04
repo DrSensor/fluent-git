@@ -1,6 +1,7 @@
 import gitNotes from './notes';
 import NotesHandler from './handler';
 import { isHash } from '../utils';
+const isPlainObject = (obj: any) => !!obj && obj.constructor === Object;
 
 /** Instantiate fluent API for git-notes 😎
  * @param text can be SHA or string notes
@@ -8,12 +9,13 @@ import { isHash } from '../utils';
  * @return chainable function/object depend on `text`
  */
 export default function(
-  text?: string,
+  text?: string | GitNotes.Options,
   options: string | GitNotes.Options = {}
 ): any {
-  options = typeof options === 'string' ? { ref: options } : options;
+  if (isPlainObject(text)) options = text as GitNotes.Options;
+  else options = typeof options === 'string' ? { ref: options } : options;
 
-  if (!text) return new NotesHandler(options);
+  if (typeof text !== 'string') return new NotesHandler(options);
   else if (isHash(text)) return gitNotes(text, options);
   else
     return {

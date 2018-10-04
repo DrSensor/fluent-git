@@ -8,10 +8,9 @@ import { isHash } from '../utils';
  */
 export default function(
   sha: string,
-  options: string | GitNotes.Options
+  options: GitNotes.Options
 ): GitNotes.Operation {
-  const { ref = null, ...execaOpts } =
-    typeof options !== 'string' ? options : {};
+  const { ref, ...execaOpts } = options;
 
   return {
     add: (notes: string) =>

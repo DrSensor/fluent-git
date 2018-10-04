@@ -106,7 +106,7 @@ function testSHA(GitObject: string) {
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
-    const notes = gitnotes(undefined, ref) as NotesUse.Manually;
+    const notes = gitnotes({ ref }) as NotesUse.Manually;
     expect(() => notes.at(GitObject).append(somenotes)).not.toThrowError();
   });
 }
@@ -130,7 +130,7 @@ function testCommit(CommitMessage: string) {
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
-    const notes = gitnotes(undefined, ref) as NotesUse.Manually;
+    const notes = gitnotes({ ref }) as NotesUse.Manually;
     expect(() =>
       notes.atCommit(CommitMessage).append(somenotes)
     ).not.toThrowError();
@@ -157,7 +157,7 @@ function testFile(Filename: string, Commit: string) {
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
-    const notes = gitnotes(undefined, ref) as NotesUse.Manually;
+    const notes = gitnotes({ ref }) as NotesUse.Manually;
     expect(() =>
       notes.atFile(Filename, Commit).append(somenotes)
     ).not.toThrowError();
@@ -184,7 +184,7 @@ function testFolder(Folder: string, Commit: string) {
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
-    const notes = gitnotes(undefined, ref) as NotesUse.Manually;
+    const notes = gitnotes({ ref }) as NotesUse.Manually;
     expect(() =>
       notes.atFolder(Folder, Commit).append(somenotes)
     ).not.toThrowError();
