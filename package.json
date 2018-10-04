@@ -1,10 +1,10 @@
 {
-	"name": "toyger",
-	"version": "0.0.0",
+	"name": "fluent-git",
+	"version": "0.1.0",
 	"description": "Advanced way to use git-notes",
 	"main": "dist/index.js",
 	"bin": {
-		"toyger": "dist/cli.js"
+		"fgit": "dist/cli.js"
 	},
 	"typings": "types/index.d.ts",
 	"files": ["dist/", "types/"],

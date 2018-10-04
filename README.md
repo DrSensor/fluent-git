@@ -108,9 +108,7 @@ Add notes on specific git-object (commit, blob/file, tree/folder, submodule, or 
 Example
 
 ```js
-notes()
-  .at(sha)
-  .add("some long notes");
+notes().at(sha).add("some long notes");
 notes("some long notes").add.at(sha);
 notes("af23339").add("some long notes");
 ```
@@ -127,9 +125,7 @@ Remove notes on specific git-object (commit, blob/file, tree/folder, submodule, 
 Example
 
 ```js
-notes()
-  .at(sha)
-  .remove();
+notes().at(sha).remove();
 notes("af23339").remove();
 ```
 
@@ -145,9 +141,7 @@ Read notes on specific git-object (commit, blob/file, tree/folder, submodule, or
 Example
 
 ```js
-mynotes1 = notes()
-  .at(sha)
-  .show();
+mynotes1 = notes().at(sha).show();
 mynotes2 = notes("af23339").show();
 console.log(String(mynotes1 + "\n" + mynotes2));
 ```
@@ -164,16 +158,14 @@ Append notes on specific git-object (commit, blob/file, tree/folder, submodule, 
 Example
 
 ```js
-notes()
-  .at(sha)
-  .append("some long notes");
+notes().at(sha).append("some long notes");
 notes("some long notes").append.at(sha);
 notes("af23339").append("some long notes");
 ```
 
 </details>
 
-<details><summary><b><code>overwrite</code> or <code>overwriteWith</code></b></summary>
+<details><summary><b><code>overwrite</code></b> or <b><code>overwriteWith</code></b></summary>
 Overwrite notes on specific git-object (commit, blob/file, tree/folder, submodule, or tag). The source can be notes on another git-object or provided manually
 
 - Arguments: `string`
@@ -184,12 +176,8 @@ Example
 
 ```js
 const sourceNotes = "HEAD";
-notes()
-  .at(sha)
-  .overwriteWith("some long notes");
-notes()
-  .at(sha)
-  .overwriteWith(sourceNotes);
+notes().at(sha).overwriteWith("some long notes");
+notes().at(sha).overwriteWith(sourceNotes);
 notes("some long notes").overwrite.at(sha);
 notes("af23339").overwriteWith("some long notes");
 notes("af23339").overwriteWith(sourceNotes);
@@ -197,7 +185,7 @@ notes("af23339").overwriteWith(sourceNotes);
 
 </details>
 
-<details><summary><b><code>copy</code> or <code>copyFrom</code></b></summary>
+<details><summary><b><code>copy</code></b> or <b><code>copyFrom</code></b></summary>
 Copy notes from git-object (commit, blob/file, tree/folder, submodule, or tag) to another git-object.
 
 - Arguments: `string`
@@ -207,9 +195,7 @@ Copy notes from git-object (commit, blob/file, tree/folder, submodule, or tag) t
 Example
 
 ```js
-notes()
-  .at(sha)
-  .copyFrom("b0279ab");
+notes().at(sha).copyFrom("b0279ab");
 notes("some long notes").copy.at("af23339"); // same as `add` operation
 notes("af23339").copyFrom("b0279ab");
 ```
@@ -226,12 +212,8 @@ notes("af23339").copyFrom("b0279ab");
 Example
 
 ```js
-notes()
-  .at("af23339")
-  .show();
-notes()
-  .at("HEAD")
-  .show();
+notes().at("af23339").show();
+notes().at("HEAD").show();
 ```
 
 </details>
@@ -244,9 +226,7 @@ notes()
 Example
 
 ```js
-notes()
-  .atCommit("Initial commit")
-  .show();
+notes().atCommit("Initial commit").show();
 ```
 
 </details>
@@ -263,15 +243,9 @@ notes()
 Example
 
 ```js
-notes()
-  .atFile("README.md", "Initial commit")
-  .show();
-notes()
-  .atFile("README.md", "af23339")
-  .show();
-notes()
-  .atFile("packages/mod1/README.md", "HEAD")
-  .show();
+notes().atFile("README.md", "Initial commit").show();
+notes().atFile("README.md", "af23339").show();
+notes().atFile("packages/mod1/README.md", "HEAD").show();
 ```
 
 </details>
@@ -288,15 +262,9 @@ notes()
 Example
 
 ```js
-notes()
-  .atFolder("src", "Initial commit")
-  .show();
-notes()
-  .atFolder("src", "af23339")
-  .show();
-notes()
-  .atFolder("packages/mod1/src", "HEAD")
-  .show();
+notes().atFolder("src", "Initial commit").show();
+notes().atFolder("src", "af23339").show();
+notes().atFolder("packages/mod1/src", "HEAD").show();
 ```
 
 </details>

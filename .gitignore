@@ -2,7 +2,7 @@
 .NOTE.md
 !packages/*
 types/
-toyger
+fgit
 
 # Rust
 *.lock
