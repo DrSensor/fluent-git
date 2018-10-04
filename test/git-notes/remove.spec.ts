@@ -1,14 +1,11 @@
-import { notes as gitnotes } from '../src';
-import * as SHA from '../src/git-notes/get-sha';
-import { execSync } from 'child_process';
+import { notes as gitnotes } from '../../src';
+import * as SHA from '../../src/get-sha';
 import 'jest-extended';
+const isArray = Array.isArray;
 
-const ref = 'test/copy';
-const destSHA = 'HEAD';
+const ref = 'test/remove';
 
-describe('Copy Notes', () => {
-  beforeAll(() => gitnotes('notes that should be copied', ref).add.at(destSHA));
-
+describe('Remove Notes', () => {
   describe('at specific Git Object', () => {
     describe('when use full SHA', () =>
       testSHA('af233391c665c79184a0d14cfe384b13a852e431'));
@@ -17,12 +14,12 @@ describe('Copy Notes', () => {
 
     test('should throw Error if no Git Object found', () => {
       const notes = gitnotes() as NotesUse.Manually;
-      expect(() => notes.at('fffffff').copyFrom(destSHA)).toThrowError();
+      expect(() => notes.at('fffffff').remove()).toThrowError();
     });
 
-    test('should throw Error if notes found ⚠️', () => {
+    test('should throw Error if no notes found', () => {
       const notes = gitnotes() as NotesUse.Manually;
-      expect(() => notes.at('cf1ab25').copyFrom(destSHA)).toThrowError();
+      expect(() => notes.at('0745e98').remove()).toThrowError();
     });
   });
 
@@ -31,14 +28,12 @@ describe('Copy Notes', () => {
 
     test('should throw Error if no commit-message found', () => {
       const notes = gitnotes() as NotesUse.Manually;
-      expect(() => notes.atCommit('( ͡° ͜ʖ ͡°)').copyFrom(destSHA)).toThrowError();
+      expect(() => notes.atCommit('( ͡° ͜ʖ ͡°)').remove()).toThrowError();
     });
 
-    test('should throw Error if notes found ️️⚠️', () => {
+    test('should throw Error if notes found', () => {
       const notes = gitnotes() as NotesUse.Manually;
-      expect(() =>
-        notes.atCommit('Initial commit').copyFrom(destSHA)
-      ).toThrowError();
+      expect(() => notes.atCommit('another folder').remove()).toThrowError();
     });
   });
 
@@ -51,15 +46,13 @@ describe('Copy Notes', () => {
 
     test('should throw Error if no file found', () => {
       const notes = gitnotes() as NotesUse.Manually;
-      expect(() =>
-        notes.atFile('( ͡° ͜ʖ ͡°)', 'af23339').copyFrom(destSHA)
-      ).toThrowError();
+      expect(() => notes.atFile('( ͡° ͜ʖ ͡°)', 'af23339').remove()).toThrowError();
     });
 
-    test('should throw Error if notes found ⚠️', () => {
+    test('should throw Error if no note found', () => {
       const notes = gitnotes() as NotesUse.Manually;
       expect(() =>
-        notes.atFile('LICENSE', 'af23339').copyFrom(destSHA)
+        notes.atFile('README.md', 'af23339').remove()
       ).toThrowError();
     });
   });
@@ -74,117 +67,109 @@ describe('Copy Notes', () => {
     test('should throw Error if no folder found', () => {
       const notes = gitnotes() as NotesUse.Manually;
       expect(() =>
-        notes.atFolder('( ͡° ͜ʖ ͡°)', 'b0279ab').copyFrom(destSHA)
+        notes.atFolder('( ͡° ͜ʖ ͡°)', 'b0279ab').remove()
       ).toThrowError();
     });
 
-    test('should throw Error if notes found ⚠️', () => {
+    test('should throw Error if no note found', () => {
       const notes = gitnotes() as NotesUse.Manually;
-      expect(() =>
-        notes.atFolder('.github', 'b0279ab').copyFrom(destSHA)
-      ).toThrowError();
+      expect(() => notes.atFolder('src', 'b0279ab').remove()).toThrowError();
     });
   });
 });
 
 //#region test instantiating
 function testSHA(GitObject: string) {
-  afterEach(() =>
-    execSync(`git notes --ref=${ref} remove ${GitObject} --ignore-missing`));
+  resetNotes(GitObject);
 
   it('should success if given a Hash string on instantiating', () => {
     const notes = gitnotes(GitObject, ref) as NotesUse.Hash;
-    expect(() => notes.copyFrom(destSHA)).not.toThrowError();
+    expect(() => notes.remove()).not.toThrowError();
   });
 
-  it('should success if given a Notes/Text on instantiating', () => {
+  it('should throw Error if given a Notes/Text on instantiating', () => {
     const notes = gitnotes('some notes', ref) as NotesUse.Text;
-    expect(() => notes.copy.at(GitObject)).not.toThrowError();
+    // @ts-ignore
+    expect(() => notes.remove.at(GitObject)).toThrowError();
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
     const notes = gitnotes({ ref }) as NotesUse.Manually;
-    expect(() => notes.at(GitObject).copyFrom(destSHA)).not.toThrowError();
+    expect(() => notes.at(GitObject).remove()).not.toThrowError();
   });
 }
 
 function testCommit(CommitMessage: string) {
-  afterEach(() =>
-    execSync(
-      `git notes --ref=${ref} remove ${SHA.fromCommit(
-        CommitMessage
-      )} --ignore-missing`
-    ));
+  const sha = SHA.fromCommit(CommitMessage);
+  resetNotes(isArray(sha) ? sha[0] : sha);
 
-  it('should throw Error if given a Commit Message on instantiating', () => {
+  it('should success if given a Commit Message on instantiating', () => {
     const notes = gitnotes(CommitMessage, ref) as NotesUse.Hash;
-    expect(() => notes.copyFrom(destSHA)).toThrowError();
+    expect(() => notes.remove()).toThrowError();
   });
 
-  it('should success if given a Notes/Text on instantiating', () => {
+  it('should throw Error if given a Notes/Text on instantiating', () => {
     const notes = gitnotes('some notes', ref) as NotesUse.Text;
-    expect(() => notes.copy.atCommit(CommitMessage)).not.toThrowError();
+    // @ts-ignore
+    expect(() => notes.remove.atCommit(CommitMessage)).toThrowError();
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
     const notes = gitnotes({ ref }) as NotesUse.Manually;
-    expect(() =>
-      notes.atCommit(CommitMessage).copyFrom(destSHA)
-    ).not.toThrowError();
+    expect(() => notes.atCommit(CommitMessage).remove()).not.toThrowError();
   });
 }
 
 function testFile(Filename: string, Commit: string) {
-  afterEach(() =>
-    execSync(
-      `git notes --ref=${ref} remove ${SHA.fromFile(
-        Filename,
-        Commit
-      )} --ignore-missing`
-    ));
+  const sha = SHA.fromFile(Filename, Commit);
+  resetNotes(isArray(sha) ? sha[0] : sha);
 
   it('should throw Error if given a Filename on instantiating', () => {
     const notes = gitnotes(Filename, ref) as NotesUse.Hash;
-    expect(() => notes.copyFrom(destSHA)).toThrowError();
+    expect(() => notes.remove()).toThrowError();
   });
 
-  it('should success if given a Notes/Text on instantiating', () => {
+  it('should throw Error if given a Notes/Text on instantiating', () => {
     const notes = gitnotes('some notes', ref) as NotesUse.Text;
-    expect(() => notes.copy.atFile(Filename, Commit)).not.toThrowError();
+    // @ts-ignore
+    expect(() => notes.remove.atFile(Filename, Commit)).toThrowError();
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
     const notes = gitnotes({ ref }) as NotesUse.Manually;
-    expect(() =>
-      notes.atFile(Filename, Commit).copyFrom(destSHA)
-    ).not.toThrowError();
+    expect(() => notes.atFile(Filename, Commit).remove()).not.toThrowError();
   });
 }
 
 function testFolder(Folder: string, Commit: string) {
-  afterEach(() =>
-    execSync(
-      `git notes --ref=${ref} remove ${SHA.fromFolder(
-        Folder,
-        Commit
-      )} --ignore-missing`
-    ));
+  const sha = SHA.fromFolder(Folder, Commit);
+  resetNotes(isArray(sha) ? sha[0] : sha);
 
   it('should throw Error if given a Folder on instantiating', () => {
     const notes = gitnotes(Folder, ref) as NotesUse.Hash;
-    expect(() => notes.copyFrom(destSHA)).toThrowError();
+    expect(() => notes.remove()).toThrowError();
   });
 
-  it('should success if given a Notes/Text on instantiating', () => {
+  it('should throw Error if given a Notes/Text on instantiating', () => {
     const notes = gitnotes('some notes', ref) as NotesUse.Text;
-    expect(() => notes.copy.atFolder(Folder, Commit)).not.toThrowError();
+    // @ts-ignore
+    expect(() => notes.remove.atFolder(Folder, Commit)).toThrowError();
   });
 
   it('should success if not given anything (Empty) on instantiating', () => {
     const notes = gitnotes({ ref }) as NotesUse.Manually;
-    expect(() =>
-      notes.atFolder(Folder, Commit).copyFrom(destSHA)
-    ).not.toThrowError();
+    expect(() => notes.atFolder(Folder, Commit).remove()).not.toThrowError();
   });
 }
 //#endregion
+
+function resetNotes(sha: string) {
+  const notes = gitnotes(sha, ref) as NotesUse.Hash;
+  let somenotes: string;
+
+  try {
+    beforeAll(() => (somenotes = notes.show()));
+  } finally {
+    afterEach(() => notes.overwriteWith(somenotes));
+  }
+}

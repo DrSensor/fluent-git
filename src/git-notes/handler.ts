@@ -1,5 +1,5 @@
 import gitNotes from './notes';
-import * as SHA from './get-sha';
+import * as SHA from '../get-sha';
 import { isHash, becomePanic } from '../utils';
 
 /** Class Handler to make 🆒 semantic API style 😎 */

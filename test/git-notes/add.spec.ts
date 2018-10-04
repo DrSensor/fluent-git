@@ -1,5 +1,5 @@
-import { notes as gitnotes } from '../src';
-import * as SHA from '../src/git-notes/get-sha';
+import { notes as gitnotes } from '../../src';
+import * as SHA from '../../src/get-sha';
 import { execSync } from 'child_process';
 import 'jest-extended';
 

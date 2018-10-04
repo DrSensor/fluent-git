@@ -1,5 +1,5 @@
 import { sync as execFileSync } from 'execa';
-import { isHash, parse } from '../../utils';
+import { isHash, parse } from '../utils';
 import { GitListCommit } from './default-options';
 
 import { fromCommit } from './commit';

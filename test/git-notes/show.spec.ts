@@ -1,4 +1,4 @@
-import { notes as gitnotes } from '../src';
+import { notes as gitnotes } from '../../src';
 import 'jest-extended';
 
 describe('Show Notes', () => {
