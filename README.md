@@ -8,6 +8,8 @@
 [![tests][tests]][tests-url]
 [![cover][cover]][cover-url]
 
+<img align="right" src="./logo.svg" height="300"/>
+
 Features:
 
 - [x] git-notes basic subcommand (add, remove, show, etc) with handler:
