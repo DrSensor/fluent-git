@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.1"></a>
+
+## [0.1.1](https://github.com/DrSensor/git-notes/compare/v0.1.0...v0.1.1) (2018-10-04)
+
+### Bug Fixes
+
+- reduce install size 📥 ([9e8ae0b](https://github.com/DrSensor/git-notes/commit/9e8ae0b))
+
 <a name="0.1.0"></a>
 
 # [0.1.0](https://github.com/DrSensor/git-notes/compare/v0.0.0...v0.1.0) (2018-10-04)
