@@ -7,7 +7,10 @@
 		"fgit": "dist/cli.js"
 	},
 	"typings": "types/index.d.ts",
-	"files": ["dist/", "types/"],
+	"files": [
+		"dist/",
+		"types/"
+	],
 	"scripts": {
 		"build": "rollup -c",
 		"start": "rollup -c --watch",
@@ -23,13 +26,17 @@
 		"ci:coverage": "jest --collectCoverageFrom='src/**/*.ts' --coverage --runInBand --silent --ci",
 		"ci:release": "conventional-github-releaser -p angular",
 		"ci:lint:commits": "commitlint --from=${CIRCLE_BRANCH} --to=${CIRCLE_SHA1}",
+		"ci:typedoc": "typedoc --mode modules --out docs src",
+		"ci:push-docs": "gh-pages -d docs",
 		"test": "concurrently -k -i --default-input-target jest -n rollup,jest \"rollup -c --watch\" \"jest --notify --watch\"",
 		"test:once": "jest --notify",
 		"test:coverage": "jest --collectCoverageFrom='src/**/*.ts' --coverage",
 		"prepublishOnly": "npm run build"
 	},
 	"lint-staged": {
-		"*.ts": ["tslint -c tslint.json -p tsconfig.json"]
+		"*.ts": [
+			"tslint -c tslint.json -p tsconfig.json"
+		]
 	},
 	"standard-version": {
 		"scripts": {
@@ -41,7 +48,11 @@
 		"node": ">= 6.14"
 	},
 	"repository": "github:DrSensor/git-notes.git",
-	"keywords": ["git", "notes", "hooks"],
+	"keywords": [
+		"git",
+		"notes",
+		"hooks"
+	],
 	"author": "Fahmi Akbar Wildana",
 	"license": "MIT",
 	"bugs": {
@@ -55,10 +66,6 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"cosmiconfig": "^5.0",
-		"execa": "^1.0",
-		"shelljs": "^0.8",
-		"yargs": "^12.0",
 		"@babel/core": "^7.0",
 		"@babel/plugin-proposal-class-properties": "^7.0",
 		"@babel/plugin-proposal-export-namespace-from": "^7.0",
@@ -79,6 +86,9 @@
 		"chokidar": "^2.0.4",
 		"concurrently": "^4.0.1",
 		"conventional-github-releaser": "^3.1",
+		"cosmiconfig": "^5.0",
+		"execa": "^1.0",
+		"gh-pages": "^2.0.1",
 		"husky": "^1.0.0-rc.13",
 		"jest": "^23.6",
 		"jest-extended": "^0.8.1",
@@ -92,12 +102,15 @@
 		"rollup-plugin-node-resolve": "^3.4",
 		"rollup-plugin-prettier": "^0.4",
 		"rollup-plugin-typescript2": "^0.17",
+		"shelljs": "^0.8",
 		"shx": "^0.3",
 		"standard-version": "^4.4",
 		"ts-jest": "^23.1",
 		"ts-node": "^7.0",
 		"tslint": "^5.11",
 		"tslint-config-prettier": "^1.15",
-		"typescript": "^3.0"
+		"typedoc": "^0.13.0",
+		"typescript": "^3.0",
+		"yargs": "^12.0"
 	}
 }
