@@ -131,7 +131,25 @@ jobs:
       - run:
           name: Publish to NPM
           command: npm publish --verbose
-#endregion
+  #endregion
+  #region DOCUMENTATION
+  typedoc:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: NPM Rebuild
+          command: npm install --quiet
+      - run:
+          name: Generate Typedoc documentations
+          command: npm run ci:typedoc
+      - run:
+          name: Push the documentations to Github gh-pages
+          command: npm run ci:push-docs
+    #endregion
 
 workflows:
   version: 2
@@ -197,4 +215,18 @@ workflows:
           filters:
             tags:
               only: /^v\d+[.]\d+[.]\d+$/
-#endregion
+      #endregion
+
+      #region DOCUMENTATION
+      - ? typedoc
+        requires:
+          - publish
+        filters:
+          branches:
+            only: master
+      - ? doc-gh-push
+        filters:
+          branches:
+            only: master
+      #endregion
+
