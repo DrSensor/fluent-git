@@ -133,7 +133,7 @@ jobs:
           command: npm publish --verbose
   #endregion
   #region DOCUMENTATION
-  typedoc:
+  document:
     docker:
       - image: circleci/node:latest
     steps:
@@ -218,15 +218,11 @@ workflows:
       #endregion
 
       #region DOCUMENTATION
-      - ? typedoc
-        requires:
-          - publish
-        filters:
-          branches:
-            only: master
-      - ? doc-gh-push
-        filters:
-          branches:
-            only: master
+      - document:
+          requires:
+            - publish
+          filters:
+            branches:
+              only: master
       #endregion
 
