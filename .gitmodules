@@ -4,4 +4,4 @@
 
 [submodule "example"]
 	path = example
-	url = ../example-git-notes
+	url = ../../DrSensor/example-git-notes

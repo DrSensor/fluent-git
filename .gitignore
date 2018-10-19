@@ -2,6 +2,7 @@
 .NOTE.md
 !packages/*
 types/
+docs/
 fgit
 
 # Rust
