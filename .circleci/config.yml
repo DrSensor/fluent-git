@@ -203,10 +203,14 @@ workflows:
       #region DOCUMENTATION [just temporary test]
       - document:
           requires:
+            # - node6-latest
             - node8-latest
+            - node10-latest
           filters:
+            tags:
+              only: /^v\d+[.]\d+[.]\d+$/
             branches:
-              only: /.*/
+              ignore: /.*/
       #endregion
 
       #region RELEASE VERSION
