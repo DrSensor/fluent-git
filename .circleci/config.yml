@@ -1,18 +1,24 @@
 # @prettier
 version: 2
 
+who_am_i: &who_am_i
+  run:
+    name: Tell the CI who I am
+    command: |
+      git config --global user.email $GIT_EMAIL
+      git config --global user.name $GIT_USERNAME
+
 install_submodule: &install_submodule
   run:
     name: Prepare example repo
     command: |
-      git config --global user.email $GIT_EMAIL
-      git config --global user.name $GIT_USERNAME
       git submodule sync --recursive
       git submodule update --init --recursive
 
 unit_tests: &unit_tests
   steps:
     - checkout
+    - <<: *who_am_i
     - <<: *install_submodule
     - restore_cache:
         key: dependency-cache-{{ checksum "package-lock.json" }}
@@ -69,6 +75,7 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
+      - <<: *who_am_i
       - <<: *install_submodule
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
@@ -96,6 +103,26 @@ jobs:
     docker:
       - image: circleci/node:10
     <<: *unit_tests
+  #endregion
+
+  #region DOCUMENTATION
+  document:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - <<: *who_am_i
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: NPM Rebuild
+          command: npm install --quiet
+      - run:
+          name: Generate Typedoc documentations
+          command: npm run ci:typedoc
+      - run:
+          name: Push the documentations to Github gh-pages
+          command: npm run ci:push-docs
   #endregion
 
   #region RELEASE VERSION
@@ -132,24 +159,6 @@ jobs:
           name: Publish to NPM
           command: npm publish --verbose
   #endregion
-  #region DOCUMENTATION
-  document:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: NPM Rebuild
-          command: npm install --quiet
-      - run:
-          name: Generate Typedoc documentations
-          command: npm run ci:typedoc
-      - run:
-          name: Push the documentations to Github gh-pages
-          command: npm run ci:push-docs
-    #endregion
 
 workflows:
   version: 2
@@ -191,6 +200,15 @@ workflows:
               only: /.*/
       #endregion
 
+      #region DOCUMENTATION [just temporary test]
+      - document:
+          requires:
+            - node8-latest
+          filters:
+            branches:
+              only: /.*/
+      #endregion
+
       #region RELEASE VERSION
       - draft:
           requires:
@@ -216,13 +234,3 @@ workflows:
             tags:
               only: /^v\d+[.]\d+[.]\d+$/
       #endregion
-
-      #region DOCUMENTATION
-      - document:
-          requires:
-            - publish
-          filters:
-            branches:
-              only: master
-      #endregion
-
