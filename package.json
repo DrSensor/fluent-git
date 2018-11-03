@@ -42,12 +42,12 @@
 	"engines": {
 		"node": ">= 6.14"
 	},
-	"repository": "github:DrSensor/git-notes.git",
+	"repository": "github:DrSensor/fluent-git.git",
 	"keywords": ["git", "notes", "hooks"],
 	"author": "Fahmi Akbar Wildana",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/DrSensor/git-notes/issues"
+		"url": "https://github.com/DrSensor/fluent-git/issues"
 	},
 	"directories": {
 		"doc": "docs/",
