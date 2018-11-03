@@ -1,15 +1,8 @@
 module.exports = {
 	testEnvironment: "node",
-	globals: {
-		"ts-jest": {
-			useBabelrc: true
-		}
-	},
+	preset: "ts-jest/presets/js-with-ts",
 	globalSetup: "<rootDir>/script/jest/globalSetup.js",
 	globalTeardown: "<rootDir>/script/jest/globalTeardown.js",
-	transform: {
-		"^.+\\.tsx?$": "ts-jest"
-	},
 	testPathIgnorePatterns: [
 		"<rootDir>/test/fixtures",
 		"<rootDir>/node_modules/",
@@ -19,7 +12,5 @@ module.exports = {
 		".*\\.d\\.ts",
 		"<rootDir>/node_modules/",
 		"<rootDir>/packages/"
-	],
-	testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-	moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
+	]
 }
