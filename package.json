@@ -1,16 +1,13 @@
 {
 	"name": "fluent-git",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "A JS/TS library to use git fluently 😎",
 	"main": "dist/index.js",
 	"bin": {
 		"fgit": "dist/cli.js"
 	},
 	"typings": "types/index.d.ts",
-	"files": [
-		"dist/",
-		"types/"
-	],
+	"files": ["dist/", "types/"],
 	"scripts": {
 		"build": "rollup -c",
 		"start": "rollup -c --watch",
@@ -34,9 +31,7 @@
 		"prepublishOnly": "npm run build"
 	},
 	"lint-staged": {
-		"*.ts": [
-			"tslint -c tslint.json -p tsconfig.json"
-		]
+		"*.ts": ["tslint -c tslint.json -p tsconfig.json"]
 	},
 	"standard-version": {
 		"scripts": {
@@ -48,11 +43,7 @@
 		"node": ">= 6.14"
 	},
 	"repository": "github:DrSensor/git-notes.git",
-	"keywords": [
-		"git",
-		"notes",
-		"hooks"
-	],
+	"keywords": ["git", "notes", "hooks"],
 	"author": "Fahmi Akbar Wildana",
 	"license": "MIT",
 	"bugs": {
@@ -66,21 +57,21 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"@babel/core": "^7.0",
-		"@babel/plugin-proposal-class-properties": "^7.0",
+		"@babel/core": "^7.1.2",
+		"@babel/plugin-proposal-class-properties": "^7.1.0",
 		"@babel/plugin-proposal-export-namespace-from": "^7.0",
 		"@babel/plugin-proposal-object-rest-spread": "^7.0",
-		"@babel/preset-env": "^7.0.0-rc.3",
-		"@babel/preset-typescript": "^7.0",
-		"@commitlint/cli": "^7.1",
+		"@babel/preset-env": "^7.1.0",
+		"@babel/preset-typescript": "^7.1.0",
+		"@commitlint/cli": "^7.2.1",
 		"@commitlint/config-conventional": "^7.1",
 		"@types/cosmiconfig": "^5.0.3",
 		"@types/execa": "^0.9.0",
-		"@types/glob": "^5.0.35",
-		"@types/jest": "^23.3.2",
-		"@types/node": "^10.9.4",
+		"@types/glob": "^5.0.36",
+		"@types/jest": "^23.3.9",
+		"@types/node": "^10.12.2",
 		"@types/shelljs": "^0.8.0",
-		"@types/yargs": "^12.0.0",
+		"@types/yargs": "^12.0.1",
 		"babel-core": "^7.0.0-bridge",
 		"babel-jest": "^23.6",
 		"chokidar": "^2.0.4",
@@ -89,28 +80,29 @@
 		"cosmiconfig": "^5.0",
 		"execa": "^1.0",
 		"gh-pages": "^2.0.1",
-		"husky": "^1.0.0-rc.13",
+		"husky": "^1.1.3",
 		"jest": "^23.6",
 		"jest-extended": "^0.8.1",
-		"lint-staged": "^7.2",
-		"prettier": "^1.14",
-		"pretty-quick": "^1.6",
-		"rollup": "^0.66",
+		"lint-staged": "^7.3.0",
+		"merge": "^1.2.1",
+		"prettier": "^1.14.3",
+		"pretty-quick": "^1.8.0",
+		"rollup": "^0.66.6",
 		"rollup-plugin-auto-external": "^2.0",
 		"rollup-plugin-babel": "^4.0",
-		"rollup-plugin-commonjs": "^9.1",
+		"rollup-plugin-commonjs": "^9.2.0",
 		"rollup-plugin-node-resolve": "^3.4",
 		"rollup-plugin-prettier": "^0.4",
-		"rollup-plugin-typescript2": "^0.17",
+		"rollup-plugin-typescript2": "^0.17.2",
 		"shelljs": "^0.8",
 		"shx": "^0.3",
 		"standard-version": "^4.4",
-		"ts-jest": "^23.1",
+		"ts-jest": "^23.10.4",
 		"ts-node": "^7.0",
 		"tslint": "^5.11",
 		"tslint-config-prettier": "^1.15",
 		"typedoc": "^0.13.0",
-		"typescript": "^3.0",
+		"typescript": "^3.1.6",
 		"yargs": "^12.0"
 	}
 }

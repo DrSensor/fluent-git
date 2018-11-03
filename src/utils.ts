@@ -3,7 +3,7 @@
  * @return true if hash string
  */
 export const isHash = (str: string) =>
-  /^[a-f0-9]{5,50}$/gm.test(str) || str === 'HEAD';
+  /^([a-f0-9]{5,50})|(HEAD([~^]\d*)*)$/gm.test(str);
 
 /** Specific exception for this program
  * Why? Because you need beutiful error message 😆
